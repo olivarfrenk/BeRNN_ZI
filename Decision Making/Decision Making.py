@@ -377,7 +377,7 @@ for displays in range(2):
         for i in range(len(stimList)):
             trials_hard.iloc[iter, fieldNumberList[i]] = stimList[i].iloc[0, 0]
         # Save correct answer to real df
-        trials_normal.loc[iter, 36] = correct_answerDirection
+        trials_hard.loc[iter, 36] = correct_answerDirection
 
         # Add random fixation cross time
         fixation_cross_time = random.sample([100, 200, 300, 400, 500], 1)

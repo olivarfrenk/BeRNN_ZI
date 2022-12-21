@@ -106,13 +106,13 @@ for displays in range (4):
         rangeList = [0, 60]
         [w,x,y,z,a] = [28,30,0,2,4]
     elif displays == 1:
-        rangeList = [50, 100]
+        rangeList = [60, 120]
         [w,x,y,z,a] = [4,6,8,10,12]
     elif displays == 2:
-        rangeList = [100, 150]
+        rangeList = [120, 180]
         [w,x,y,z,a] = [12,14,16,18,20]
     else:
-        rangeList = [150, 200]
+        rangeList = [180, 240]
         [w,x,y,z,a] = [20,22,24,26,28]
 
     for i in range(rangeList[0],rangeList[1]):

@@ -370,17 +370,17 @@ for displays in range(2):
 
         # Add random fixation cross time
         fixation_cross_time = random.sample([100, 200, 300, 400, 500], 1)
-        trials_hard.iloc[i, 32] = fixation_cross_time[0]
+        trials_hard.iloc[iter, 32] = fixation_cross_time[0]
         # Add random after response time
         after_response_time = random.sample([600, 700, 800, 900, 1000], 1)
-        trials_hard.iloc[i, 33] = after_response_time[0]
+        trials_hard.iloc[iter, 33] = after_response_time[0]
         # Add Block Randomization
-        trials_hard.iloc[i, 34] = 10
+        trials_hard.iloc[iter, 34] = 10
         # Add Block Division
-        if i == 59 or i == 119 or i == 179 or i == 239:
-            trials_hard.iloc[i, 35] = 1
+        if iter == 59 or iter == 119 or iter == 179 or iter == 239:
+            trials_hard.iloc[iter, 35] = 1
         else:
-            trials_hard.iloc[i, 35] = 0
+            trials_hard.iloc[iter, 35] = 0
 
 # Save df as spreadsheet
 trials_hard.to_excel('spreadsheetHard_WorkingMemory_Anti.xlsx')

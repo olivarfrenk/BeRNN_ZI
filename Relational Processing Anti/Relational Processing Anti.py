@@ -95,21 +95,21 @@ for displays in range(2):
         for i in range(len(stimList)):
             trials_easy.iloc[iter, fieldNumberList[i]] = stimList[i].iloc[0,0]
         # Save correct answer to real df
-        trials_easy.loc[i, 36] = stimList[1].iloc[0, 0]
+        trials_easy.loc[iter, 36] = stimList[1].iloc[0, 0]
 
         # Add random fixation cross time
         fixation_cross_time = random.sample([100, 200, 300, 400, 500], 1)
-        trials_easy.iloc[i, 32] = fixation_cross_time[0]
+        trials_easy.iloc[iter, 32] = fixation_cross_time[0]
         # Add random after response time
         after_response_time = random.sample([600, 700, 800, 900, 1000], 1)
-        trials_easy.iloc[i, 33] = after_response_time[0]
+        trials_easy.iloc[iter, 33] = after_response_time[0]
         # Add Block Randomization
-        trials_easy.iloc[i, 34] = 6
+        trials_easy.iloc[iter, 34] = 6
         # Add Block Division
-        if i == 59 or i == 119 or i == 179 or i == 239:
-            trials_easy.iloc[i, 35] = 1
+        if iter == 59 or iter == 119 or i == 179 or i == 239:
+            trials_easy.iloc[iter, 35] = 1
         else:
-            trials_easy.iloc[i, 35] = 0
+            trials_easy.iloc[iter, 35] = 0
 
 # Save df as spreadsheet
 trials_easy.to_excel('spreadsheetEasy_RelationalProcessing_Anti.xlsx')
@@ -236,21 +236,21 @@ for displays in range(2):
         for i in range(len(stimList)):
             trials_normal.iloc[iter, fieldNumberList[i]] = stimList[i].iloc[0,0]
         # Save correct answer to real df
-        trials_normal.loc[i, 36] = stimList[2].iloc[0, 0]
+        trials_normal.loc[iter, 36] = stimList[2].iloc[0, 0]
 
         # Add random fixation cross time
         fixation_cross_time = random.sample([100, 200, 300, 400, 500], 1)
-        trials_normal.iloc[i, 32] = fixation_cross_time[0]
+        trials_normal.iloc[iter, 32] = fixation_cross_time[0]
         # Add random after response time
         after_response_time = random.sample([600, 700, 800, 900, 1000], 1)
-        trials_normal.iloc[i, 33] = after_response_time[0]
+        trials_normal.iloc[iter, 33] = after_response_time[0]
         # Add Block Randomization
-        trials_normal.iloc[i, 34] = 6
+        trials_normal.iloc[iter, 34] = 6
         # Add Block Division
-        if i == 59 or i == 119 or i == 179 or i == 239:
-            trials_normal.iloc[i, 35] = 1
+        if iter == 59 or iter == 119 or iter == 179 or iter == 239:
+            trials_normal.iloc[iter, 35] = 1
         else:
-            trials_normal.iloc[i, 35] = 0
+            trials_normal.iloc[iter, 35] = 0
 
 # Save df as spreadsheet
 trials_normal.to_excel('spreadsheetNormal_RelationalProcessing_Anti.xlsx')
@@ -400,21 +400,21 @@ for displays in range(2):
         for i in range(len(stimList)):
             trials_hard.iloc[iter, fieldNumberList[i]] = stimList[i].iloc[0,0]
         # Save correct answer to real df
-        trials_hard.loc[i, 36] = stimList[3].iloc[0, 0]
+        trials_hard.loc[iter, 36] = stimList[3].iloc[0, 0]
 
         # Add random fixation cross time
         fixation_cross_time = random.sample([100, 200, 300, 400, 500], 1)
-        trials_hard.iloc[i, 32] = fixation_cross_time[0]
+        trials_hard.iloc[iter, 32] = fixation_cross_time[0]
         # Add random after response time
         after_response_time = random.sample([600, 700, 800, 900, 1000], 1)
-        trials_hard.iloc[i, 33] = after_response_time[0]
+        trials_hard.iloc[iter, 33] = after_response_time[0]
         # Add Block Randomization
-        trials_hard.iloc[i, 34] = 6
+        trials_hard.iloc[iter, 34] = 6
         # Add Block Division
-        if i == 59 or i == 119 or i == 179 or i == 239:
-            trials_hard.iloc[i, 35] = 1
+        if iter == 59 or iter == 119 or iter == 179 or iter == 239:
+            trials_hard.iloc[iter, 35] = 1
         else:
-            trials_hard.iloc[i, 35] = 0
+            trials_hard.iloc[iter, 35] = 0
 
 # Save df as spreadsheet
 trials_hard.to_excel('spreadsheetHard_RelationalProcessing_Anti.xlsx')
