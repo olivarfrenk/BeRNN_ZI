@@ -9,8 +9,8 @@ os.chdir('./Executive Function')
 stims = pd.DataFrame(['Uw0_25.png', 'Dw0_25.png', 'Lw0_25.png', 'Rw0_25.png',\
                       'Uw0_5.png', 'Dw0_5.png', 'Lw0_5.png', 'Rw0_5.png',\
                       'Uw0_75.png', 'Dw0_75.png', 'Lw0_75.png', 'Rw0_75.png',\
-                      'Uw1_0.png', 'Dw1_0.png', 'Lw1_0.png', 'Rw1_0.png',\
-                      'XwX.png', 'XwX.png', 'XwX.png', 'XwX.png'])
+                      'Uw1_0.png', 'Dw1_0.png', 'Lw1_0.png', 'Rw1_0.png'])
+
 
 
 # ======================================================================================================================
@@ -38,15 +38,19 @@ for displays in range (4):
         centralStim = stims.sample()
         splitted_centralStim_direction = centralStim.iloc[0, 0].split('w')[0]
 
-        if splitted_centralStim_direction == 'X':
-            otherStim = centralStim
+        ratio_list = [1, 2, 3, 4]
+        ratio = random.sample(ratio_list, 1)
+
+        if ratio[0] == 1:
+            otherStim = 'XwX.png'
+            splitted_centralStim_direction = 'X'
         else:
-            otherStim = stims.sample()
+            otherStim = stims.sample().iloc[0, 0]
 
         # Fill the cells for correct and wrong answers
-        trials_easy.loc[i, x] = otherStim.iloc[0, 0]
+        trials_easy.loc[i, x] = otherStim
         trials_easy.loc[i, y] = centralStim.iloc[0, 0]
-        trials_easy.loc[i, z] = otherStim.iloc[0, 0]
+        trials_easy.loc[i, z] = otherStim
         # Save correct answer to real df
         trials_easy.loc[i, 36] = splitted_centralStim_direction
 
@@ -65,7 +69,7 @@ for displays in range (4):
             trials_easy.iloc[i, 35] = 0
 
 # Save df as spreadsheet
-trials_easy.to_excel('spreadsheetEasy_ExecutiveFunction.xlsx')
+trials_easy.to_excel('EF_easy.xlsx')
 
 
 # ======================================================================================================================
@@ -110,29 +114,32 @@ for displays in range (4):
         # Randomly choose a stim from general stimulus pool
         centralStim = stims.sample()
         splitted_centralStim_direction = centralStim.iloc[0, 0].split('w')[0]
-        if splitted_centralStim_direction != 'X':
-            splitted_centralStim_strength = centralStim.iloc[0, 0].split('w')[1].split('.')[0]
-            # colors to look for w.r.t. central Stim
-            centralStim_strength_strengthDict = strengthDict[splitted_centralStim_strength]
-            [s1, s2, s3] = centralStim_strength_strengthDict.split('-')
 
+        ratio_list = [1, 2, 3, 4]
+        ratio = random.sample(ratio_list, 1)
         stimFound = False
         while stimFound == False:
-            if splitted_centralStim_direction == 'X':
-                otherStim = centralStim
+            if ratio[0] == 1:
+                otherStim = 'XwX.png'
+                splitted_centralStim_direction = 'X'
                 stimFound = True
             else:
-                otherStim = stims.sample()
+                splitted_centralStim_strength = centralStim.iloc[0, 0].split('w')[1].split('.')[0]
+                # colors to look for w.r.t. central Stim
+                centralStim_strength_strengthDict = strengthDict[splitted_centralStim_strength]
+                [s1, s2, s3] = centralStim_strength_strengthDict.split('-')
+
+                otherStim = stims.sample().iloc[0, 0]
                 # Split new sampled stim for comparison
-                splitted_otherStim_strength = otherStim.iloc[0, 0].split('w')[1].split('.')[0]
+                splitted_otherStim_strength = otherStim.split('w')[1].split('.')[0]
                 stimFound = assignFunc_strength(s1, s2, s3)
 
         # Fill the cells for correct and wrong answers
-        trials_normal.loc[i, w] = otherStim.iloc[0, 0]
-        trials_normal.loc[i, x] = otherStim.iloc[0, 0]
+        trials_normal.loc[i, w] = otherStim
+        trials_normal.loc[i, x] = otherStim
         trials_normal.loc[i, y] = centralStim.iloc[0, 0]
-        trials_normal.loc[i, z] = otherStim.iloc[0, 0]
-        trials_normal.loc[i, a] = otherStim.iloc[0, 0]
+        trials_normal.loc[i, z] = otherStim
+        trials_normal.loc[i, a] = otherStim
         # Save correct answer to real df
         trials_normal.loc[i, 36] = splitted_centralStim_direction
 
@@ -151,7 +158,7 @@ for displays in range (4):
             trials_normal.iloc[i, 35] = 0
 
 # Save df as spreadsheet
-trials_normal.to_excel('spreadsheetNormal_ExecutiveFunction.xlsx')
+trials_normal.to_excel('EF_normal.xlsx')
 
 
 # ======================================================================================================================
@@ -205,35 +212,39 @@ for displays in range (4):
         # Randomly choose a stim from general stimulus pool
         centralStim = stims.sample()
         splitted_centralStim_direction = centralStim.iloc[0, 0].split('w')[0]
-        if splitted_centralStim_direction != 'X':
-            splitted_centralStim_strength = centralStim.iloc[0, 0].split('w')[1].split('.')[0]
-            # strengths to look for w.r.t. central Stim
-            centralStim_strength_strengthDict = strengthDict[splitted_centralStim_strength]
-            [s1, s2, s3] = centralStim_strength_strengthDict.split('-')
-            # direction to look for w.r.t. central Stim
-            centralStim_direction_directionDict = directionDict[splitted_centralStim_direction]
-            [d1] = centralStim_direction_directionDict.split('-')
 
+        ratio_list = [1, 2, 3, 4]
+        ratio = random.sample(ratio_list, 1)
         stimFound = False
         while stimFound == False:
-            if splitted_centralStim_direction == 'X':
-                otherStim = centralStim
+            if ratio[0] == 1:
+                otherStim = 'XwX.png'
+                splitted_centralStim_direction = 'X'
                 stimFound = True
             else:
-                otherStim = stims.sample()
+                splitted_centralStim_strength = centralStim.iloc[0, 0].split('w')[1].split('.')[0]
+                # colors to look for w.r.t. central Stim
+                centralStim_strength_strengthDict = strengthDict[splitted_centralStim_strength]
+                [s1, s2, s3] = centralStim_strength_strengthDict.split('-')
+                # direction to look for w.r.t. central Stim
+                centralStim_direction_directionDict = directionDict[splitted_centralStim_direction]
+                [d1] = centralStim_direction_directionDict.split('-')
+
+                otherStim = stims.sample().iloc[0, 0]
                 # Split new sampled stim for comparison
-                splitted_otherStim_strength = otherStim.iloc[0, 0].split('w')[1].split('.')[0]
-                splitted_otherStim_direction = otherStim.iloc[0, 0].split('w')[0]
+                splitted_otherStim_strength = otherStim.split('w')[1].split('.')[0]
+                splitted_otherStim_direction = otherStim.split('w')[0]
                 stimFound = assignFunc_strength(s1, s2, s3, d1)
 
+
         # Fill the cells for correct and wrong answers
-        trials_hard.loc[i, v] = otherStim.iloc[0, 0]
-        trials_hard.loc[i, w] = otherStim.iloc[0, 0]
-        trials_hard.loc[i, x] = otherStim.iloc[0, 0]
+        trials_hard.loc[i, v] = otherStim
+        trials_hard.loc[i, w] = otherStim
+        trials_hard.loc[i, x] = otherStim
         trials_hard.loc[i, y] = centralStim.iloc[0, 0]
-        trials_hard.loc[i, z] = otherStim.iloc[0, 0]
-        trials_hard.loc[i, a] = otherStim.iloc[0, 0]
-        trials_hard.loc[i, b] = otherStim.iloc[0, 0]
+        trials_hard.loc[i, z] = otherStim
+        trials_hard.loc[i, a] = otherStim
+        trials_hard.loc[i, b] = otherStim
         # Save correct answer to real df
         trials_hard.loc[i, 36] = splitted_centralStim_direction
 
@@ -252,5 +263,5 @@ for displays in range (4):
             trials_hard.iloc[i, 35] = 0
 
 # Save df as spreadsheet
-trials_hard.to_excel('spreadsheetHard_ExecutiveFunction.xlsx')
+trials_hard.to_excel('EF_hard.xlsx')
 
