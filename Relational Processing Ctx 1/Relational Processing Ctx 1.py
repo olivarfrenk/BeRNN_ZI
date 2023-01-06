@@ -27,13 +27,17 @@ trials_easy = pd.DataFrame(index = range(240), columns = range(40))
 
 correctAnswer_dict = {
     '360_0': '360_0w1_0.png-360_0w0_50.png-360_0w0_75.png-360_0w0_25.png',
-    '337_5': '337_5w1_0.png-337_5w0_50.png-337_5w0_75.png-337_5w0_25.png',
-    '292_5': '292_5w1_0.png-292_5w0_50.png-292_5w0_75.png-292_5w0_25.png',
-    '225_0': '225_0w1_0.png-225_0w0_50.png-225_0w0_75.png-225_0w0_25.png',
+    '360_1': '360_1w1_0.png-360_1w0_50.png-360_1w0_75.png-360_1w0_25.png',
+    '300_0': '300_0w1_0.png-300_0w0_50.png-300_0w0_75.png-300_0w0_25.png',
+    '300_1': '300_1w1_0.png-300_1w0_50.png-300_1w0_75.png-300_1w0_25.png',
+    '240_0': '240_0w1_0.png-240_0w0_50.png-240_0w0_75.png-240_0w0_25.png',
+    '240_1': '240_1w1_0.png-240_1w0_50.png-240_1w0_75.png-240_1w0_25.png',
     '180_0': '180_0w1_0.png-180_0w0_50.png-180_0w0_75.png-180_0w0_25.png',
-    '135_0': '135_0w1_0.png-135_0w0_50.png-135_0w0_75.png-135_0w0_25.png',
-    '67_5': '67_5w1_0.png-67_5w0_50.png-67_5w0_75.png-67_5w0_25.png',
-    '22_5': '22_5w1_0.png-22_5w0_50.png-22_5w0_75.png-22_5w0_25.png'
+    '180_1': '180_1w1_0.png-180_1w0_50.png-180_1w0_75.png-180_1w0_25.png',
+    '120_0': '120_0w1_0.png-120_0w0_50.png-120_0w0_75.png-120_0w0_25.png',
+    '120_1': '120_1w1_0.png-120_1w0_50.png-120_1w0_75.png-120_1w0_25.png',
+    '60_0': '60_0w1_0.png-60_0w0_50.png-60_0w0_75.png-60_0w0_25.png',
+    '60_1': '60_1w1_0.png-60_1w0_50.png-60_1w0_75.png-60_1w0_25.png'
 }
 
 # Fill all rows for the first 100 and second 100 (for distributing reasons on the two circles in gorilla)
@@ -128,18 +132,17 @@ trials_normal = pd.DataFrame(index = range(240), columns = range(40))
 
 # Create dictionary for colors with their similar connections
 colorDict = {
-    '360_0': '337_5-360_5-22_5',
-    '337_5': '292_5-337_5-360_0',
-    '292_5': '225_0-292_5-337_5',
-    '225_0': '180_0-225_0-292_5',
-    '180_0': '135_0-180_0-225_0',
-    '135_0': '67_5-135_0-180_0',
-    '67_5': '22_5-67_5-135_0',
-    '22_5': '360_0-22_5-67_5'
+    '360': '300_0-360_0-60_0-300_1-360_1-60_1',
+    '300': '240_0-300_0-360_0-240_1-300_1-360_1',
+    '240': '180_0-240_0-300_0-180_1-240_1-300_1',
+    '180': '120_0-180_0-240_0-120_0-180_0-240_0',
+    '120': '60_0-120_0-180_0-60_1-120_1-180_1',
+    '60': '360_0-60_0-120_0-360_1-60_1-120_1'
 }
 
-def assignFunc_color(color1, color2, color3):
-    if splitted_currentStim_Color == color1 or splitted_currentStim_Color == color2 or splitted_currentStim_Color == color3:
+def assignFunc_color(color1, color2, color3, color4, color5, color6):
+    if splitted_currentStim_Color == color1 or splitted_currentStim_Color == color2 or splitted_currentStim_Color == color3 or\
+        splitted_currentStim_Color == color4 or splitted_currentStim_Color == color5 or splitted_currentStim_Color == color6:
         # append
         stimList.append(currentStim)
         colorList.append(splitted_currentStim_Color)
@@ -165,16 +168,16 @@ for displays in range(2):
             stimList = []
             colorList = []
             firstStim = df_stimList.sample()
-            splitted_firstStim_Color = firstStim.iloc[0, 0].split('w')[0]
+            splitted_firstStim_Color = firstStim.iloc[0, 0].split('_')[0]
             # colors to look for w.r.t. first Stim
             outfirstStim_Color_colorDict = colorDict[splitted_firstStim_Color]
-            [c1, c2, c3] = outfirstStim_Color_colorDict.split('-')
+            [c1, c2, c3, c4, c5, c6] = outfirstStim_Color_colorDict.split('-')
             for i in range(4):
                 stimFound = False
                 while stimFound == False:
                     currentStim = df_stimList.sample()
                     splitted_currentStim_Color = currentStim.iloc[0, 0].split('w')[0]
-                    stimFound = assignFunc_color(c1, c2, c3)
+                    stimFound = assignFunc_color(c1, c2, c3, c4, c5, c6)
 
             # Get the most common color
             keyColors = Counter(colorList).keys()
@@ -276,8 +279,9 @@ def assignFunc_form(form1, form2, form3):
         stimFound = False
         return stimFound
 
-def assignFunc_color(color1, color2, color3, form1, form2, form3):
-    if splitted_currentStim_Color == color1 or splitted_currentStim_Color == color2 or splitted_currentStim_Color == color3:
+def assignFunc_color(color1, color2, color3, color4, color5, color6, form1, form2, form3):
+    if splitted_currentStim_Color == color1 or splitted_currentStim_Color == color2 or splitted_currentStim_Color == color3 or\
+            splitted_currentStim_Color == color4 or splitted_currentStim_Color == color5 or splitted_currentStim_Color == color6:
         stimFound = assignFunc_form(form1, form2, form3)
         return stimFound
 
@@ -301,9 +305,9 @@ for displays in range(2):
             colorList = []
             # colors to look for w.r.t. first Stim
             firstStim = df_stimList.sample()
-            splitted_firstStim_Color = firstStim.iloc[0, 0].split('w')[0]
+            splitted_firstStim_Color = firstStim.iloc[0, 0].split('_')[0]
             outfirstStim_Color_colorDict = colorDict[splitted_firstStim_Color]
-            [c1, c2, c3] = outfirstStim_Color_colorDict.split('-')
+            [c1, c2, c3, c4, c5, c6] = outfirstStim_Color_colorDict.split('-')
             # forms to look for w.r.t. first Stim
             splitted_firstStim_Form = firstStim.iloc[0, 0].split('w')[1].split('.')[0]
             outfirstStim_Form_formDict = formDict[splitted_firstStim_Form]
@@ -314,7 +318,7 @@ for displays in range(2):
                     currentStim = df_stimList.sample()
                     splitted_currentStim_Color = currentStim.iloc[0, 0].split('w')[0]
                     splitted_currentStim_Form = currentStim.iloc[0, 0].split('w')[1].split('.')[0]
-                    stimFound = assignFunc_color(c1, c2, c3, f1, f2, f3)
+                    stimFound = assignFunc_color(c1, c2, c3, c4, c5, c6, f1, f2, f3)
 
             # Get the most common color
             keyColors = Counter(colorList).keys()

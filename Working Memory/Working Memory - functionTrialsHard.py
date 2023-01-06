@@ -42,9 +42,10 @@ def assignFunc_form(form1, form2, form3, iter):
         stimFound = False
         return stimFound
 
-def assignFunc_color(color1, color2, color3, form1, form2, form3, iter):
+def assignFunc_color(color1, color2, color3, color4, color5, color6, form1, form2, form3, iter):
     if splitted_currentStim_color == color2 and splitted_currentStim_form != splitted_previousStim_form or \
-        splitted_currentStim_color == color1 or splitted_currentStim_color == color3:
+        splitted_currentStim_color == color1 or splitted_currentStim_color == color3 or splitted_currentStim_color == color4 \
+        or splitted_currentStim_color == color5 and splitted_currentStim_form != splitted_previousStim_form or splitted_currentStim_color == color6:
 
         stimFound = assignFunc_form(form1, form2, form3, iter)
         return stimFound
@@ -56,14 +57,12 @@ def assignFunc_color(color1, color2, color3, form1, form2, form3, iter):
 
 # Create dictionary for colors and forms with their similar connections
 colorDict = {
-    '360_0': '337_5-360_5-22_5',
-    '337_5': '292_5-337_5-360_0',
-    '292_5': '225_0-292_5-337_5',
-    '225_0': '180_0-225_0-292_5',
-    '180_0': '135_0-180_0-225_0',
-    '135_0': '67_5-135_0-180_0',
-    '67_5': '22_5-67_5-135_0',
-    '22_5': '360_0-22_5-67_5'
+    '360': '300_0-360_0-60_0-300_1-360_1-60_1',
+    '300': '240_0-300_0-360_0-240_1-300_1-360_1',
+    '240': '180_0-240_0-300_0-180_1-240_1-300_1',
+    '180': '120_0-180_0-240_0-120_0-180_0-240_0',
+    '120': '60_0-120_0-180_0-60_1-120_1-180_1',
+    '60': '360_0-60_0-120_0-360_1-60_1-120_1'
 }
 
 formDict = {
@@ -87,7 +86,7 @@ trials_hard_preDF.loc[240,0] = '180_0w1_0.png'
 # Allocate first previous stim
 previousStim = '180_0w1_0.png'
 # split it up for comparison
-splitted_previousStim_color = previousStim.split('w')[0]
+splitted_previousStim_color = previousStim.split('_')[0]
 splitted_previousStim_form = previousStim.split('w')[1].split('.')[0]
 
 
@@ -131,7 +130,7 @@ for displays in range(2):
 
         # colors to look for w.r.t. previous Stim
         outPrevious_colorDict = colorDict[splitted_previousStim_color]
-        [c1, c2, c3] = outPrevious_colorDict.split('-')
+        [c1, c2, c3, c4, c5, c6] = outPrevious_colorDict.split('-')
         # forms to look for w.r.t. previous Stim
         outPrevious_formDict = formDict[splitted_previousStim_form]
         [f1, f2, f3] = outPrevious_formDict.split('-')
@@ -147,12 +146,12 @@ for displays in range(2):
             splitted_currentStim_form = string_currentStim.split('w')[1].split('.')[0]
 
             # Apply function for finding right consecutive stimulus
-            stimFound = assignFunc_color(c1, c2, c3, f1, f2, f3, iter)
+            stimFound = assignFunc_color(c1, c2, c3, c4, c5, c6, f1, f2, f3, iter)
 
         # At the end allocate previous stim for next for loop
         previousStim = trials_hard_preDF.iloc[iter, 1]
         # split it up for comparison
-        splitted_previousStim_color = previousStim.split('w')[0]
+        splitted_previousStim_color = previousStim.split('_')[0]
         splitted_previousStim_form = previousStim.split('w')[1].split('.')[0]
 
         # Add random fixation cross time

@@ -367,19 +367,19 @@ trials_normal.to_excel('spreadsheetNormal_WorkingMemory_Ctx2.xlsx')
 trials_hard = pd.DataFrame(index=range(240), columns=range(37))
 
 colorDict = {
-    '360_0': '337_5-360_5-22_5',
-    '337_5': '292_5-337_5-360_0',
-    '292_5': '225_0-292_5-337_5',
-    '225_0': '180_0-225_0-292_5',
-    '180_0': '135_0-180_0-225_0',
-    '135_0': '67_5-135_0-180_0',
-    '67_5': '22_5-67_5-135_0',
-    '22_5': '360_0-22_5-67_5'
+    '360': '300_0-360_0-60_0-300_1-360_1-60_1',
+    '300': '240_0-300_0-360_0-240_1-300_1-360_1',
+    '240': '180_0-240_0-300_0-180_1-240_1-300_1',
+    '180': '120_0-180_0-240_0-120_0-180_0-240_0',
+    '120': '60_0-120_0-180_0-60_1-120_1-180_1',
+    '60': '360_0-60_0-120_0-360_1-60_1-120_1'
 }
 
-def assignFunc_color(color1, color2, color3, color4, color5, color6):
-    if firstStim_currentTrial_color == color1 or firstStim_currentTrial_color == color2 or firstStim_currentTrial_color == color3 and \
-            secondStim_currentTrial_color == color4 or secondStim_currentTrial_color == color5 or secondStim_currentTrial_color == color6:
+def assignFunc_color(color1, color2, color3, color4, color5, color6, color7, color8, color9, color10, color11, color12):
+    if firstStim_currentTrial_color == color1 or firstStim_currentTrial_color == color2 or firstStim_currentTrial_color == color3 or \
+        firstStim_currentTrial_color == color4 or firstStim_currentTrial_color == color5 or firstStim_currentTrial_color == color6 and \
+        secondStim_currentTrial_color == color7 or secondStim_currentTrial_color == color8 or secondStim_currentTrial_color == color9 or \
+        secondStim_currentTrial_color == color10 or secondStim_currentTrial_color == color11 or secondStim_currentTrial_color == color12:
         # Save the stims in the df
         trials_hard.loc[i, fieldNumberList[0]] = firstStim.iloc[0, 0]
         trials_hard.loc[i, fieldNumberList[1]] = secondStim.iloc[0, 0]
@@ -394,11 +394,11 @@ def assignFunc_color(color1, color2, color3, color4, color5, color6):
         return stimFound
 
 
-def assignFunc_form(color1, color2, color3, color4, color5, color6, form1, form2, form3, form4, form5, form6):
+def assignFunc_form(color1, color2, color3, color4, color5, color6, color7, color8, color9, color10, color11, color12, form1, form2, form3, form4, form5, form6):
     if firstStim_currentTrial_form == form1 or firstStim_currentTrial_form == form2 or firstStim_currentTrial_form == form3 and \
             secondStim_currentTrial_form == form4 or secondStim_currentTrial_form == form5 or secondStim_currentTrial_form == form6:
 
-        stimFound = assignFunc_color(color1, color2, color3, color4, color5, color6)
+        stimFound = assignFunc_color(color1, color2, color3, color4, color5, color6, color7, color8, color9, color10, color11, color12)
         return stimFound
 
     else:
@@ -542,17 +542,17 @@ for displays in range(2):
                         diffFound = True
 
             # See if the colors and forms match
-            firstStim_memory2_color_colorDict = colorDict[firstStim_memory2_color]
-            [c1, c2, c3] = firstStim_memory2_color_colorDict.split('-')
+            firstStim_memory2_color_colorDict = colorDict[firstStim_memory2_color.split('_')[0]]
+            [c1, c2, c3, c4, c5, c6] = firstStim_memory2_color_colorDict.split('-')
             firstStim_memory2_form_formDict = formDict[firstStim_memory2_form]
             [f1, f2, f3] = firstStim_memory2_form_formDict.split('-')
 
-            secondStim_memory2_color_colorDict = colorDict[secondStim_memory2_color]
-            [c4, c5, c6] = secondStim_memory2_color_colorDict.split('-')
+            secondStim_memory2_color_colorDict = colorDict[secondStim_memory2_color.split('_')[0]]
+            [c7, c8, c9, c10, c11, c12] = secondStim_memory2_color_colorDict.split('-')
             secondStim_memory2_form_formDict = formDict[secondStim_memory2_form]
             [f4, f5, f6] = secondStim_memory2_form_formDict.split('-')
 
-            stimFound = assignFunc_form(c1, c2, c3, c4, c5, c6, f1, f2, f3, f4, f5, f6)
+            stimFound = assignFunc_form(c1, c2, c3, c4, c5, c6, c7, c8, c9, c10, c11, c12, f1, f2, f3, f4, f5, f6)
 
         firstStim_memory2_color = firstStim_memory1_color
         firstStim_memory2_form = firstStim_memory1_form

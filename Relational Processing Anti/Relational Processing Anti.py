@@ -121,9 +121,10 @@ trials_easy.to_excel('spreadsheetEasy_RelationalProcessing_Anti.xlsx')
 # Create empty trials normal df
 trials_normal = pd.DataFrame(index = range(240), columns = range(37))
 
-def assignFunc_color(color1, color2):
+def assignFunc_color(color1, color2, color3, color4, color5, color6):
 
-    if splitted_otherStim_Color == color1 or splitted_otherStim_Color == color2:
+    if splitted_otherStim_Color == color1 or splitted_otherStim_Color == color2 or splitted_otherStim_Color == color3 or\
+            splitted_otherStim_Color == color4 or splitted_otherStim_Color == color5 or splitted_otherStim_Color == color6:
         # append
         stimList.append(otherStim)
         stimFound = True
@@ -135,14 +136,12 @@ def assignFunc_color(color1, color2):
 
 # Create dictionary for colors with their similar connections
 colorDict = {
-    '360_0': '337_5-22_5',
-    '337_5': '292_5-360_0',
-    '292_5': '225_0-337_5',
-    '225_0': '180_0-292_5',
-    '180_0': '135_0-225_0',
-    '135_0': '67_5-180_0',
-    '67_5': '22_5-135_0',
-    '22_5': '360_0-67_5'
+    '360': '300_0-360_0-60_0-300_1-360_1-60_1',
+    '300': '240_0-300_0-360_0-240_1-300_1-360_1',
+    '240': '180_0-240_0-300_0-180_1-240_1-300_1',
+    '180': '120_0-180_0-240_0-120_0-180_0-240_0',
+    '120': '60_0-120_0-180_0-60_1-120_1-180_1',
+    '60': '360_0-60_0-120_0-360_1-60_1-120_1'
 }
 
 # Fill all rows for the first 100 and second 100 (for distributing reasons on the two circles in gorilla)
@@ -158,10 +157,10 @@ for displays in range(2):
         # first stim is sampled
         firstStim = df_stimList.sample()
         # Split new sampled stim for comparison
-        splitted_firstStim_Color = firstStim.iloc[0,0].split('w')[0]
+        splitted_firstStim_Color = firstStim.iloc[0,0].split('_')[0]
         # colors to look for w.r.t. first Stim
         outfirstStim_Color_colorDict = colorDict[splitted_firstStim_Color]
-        [c1, c2] = outfirstStim_Color_colorDict.split('-')
+        [c1, c2, c3, c4, c5, c6] = outfirstStim_Color_colorDict.split('-')
         # Append first stim to list of 8 stimuli in total for one trial
         stimList.append(firstStim)
 
@@ -177,7 +176,7 @@ for displays in range(2):
                 # compare new sampled stim with firstStim
                 if otherStim.iloc[0,0] != firstStim.iloc[0,0]:
                     # Apply function for comparison of otherStim_Color with firstStim_Color's
-                    stimFound = assignFunc_color(c1, c2)
+                    stimFound = assignFunc_color(c1, c2, c3, c4, c5, c6)
                 else:
                     stimFound = False
 
@@ -264,14 +263,14 @@ trials_hard = pd.DataFrame(index = range(240), columns = range(37))
 
 # Create dictionary for forms with their similar connections
 formDict = {
-    '0_25': '0_50-0_75',
-    '0_50': '0_25-0_75',
-    '0_75': '0_50-1_0',
-    '1_0': '0_50-0_75'
+    '0_25': '0_25-0_50-0_75',
+    '0_50': '0_25-0_50-0_75',
+    '0_75': '0_50-0_75-1_0',
+    '1_0': '0_25-0_50-0_75'
 }
 
-def assignFunc_form(form1, form2):
-    if splitted_otherStim_Form == form1 or splitted_otherStim_Form == form2:
+def assignFunc_form(form1, form2, form3):
+    if splitted_otherStim_Form == form1 or splitted_otherStim_Form == form2 or splitted_otherStim_Form == form3:
         # append
         stimList.append(otherStim)
         stimFound = True
@@ -281,11 +280,12 @@ def assignFunc_form(form1, form2):
         stimFound = False
         return stimFound
 
-def assignFunc_color(color1, color2, form1, form2):
+def assignFunc_color(color1, color2, color3, color4, color5, color6, form1, form2, form3):
 
-    if splitted_otherStim_Color == color1 or splitted_otherStim_Color == color2:
+    if splitted_otherStim_Color == color1 or splitted_otherStim_Color == color2 or splitted_otherStim_Color == color3 or \
+            splitted_otherStim_Color == color4 or splitted_otherStim_Color == color5 or splitted_otherStim_Color == color6:
 
-        stimFound = assignFunc_form(form1, form2)
+        stimFound = assignFunc_form(form1, form2, form3)
         return stimFound
 
     else:
@@ -304,14 +304,14 @@ for displays in range(2):
         # first stim is sampled
         firstStim = df_stimList.sample()
         # Split new sampled stim for comparison
-        splitted_firstStim_Color = firstStim.iloc[0,0].split('w')[0]
+        splitted_firstStim_Color = firstStim.iloc[0,0].split('_')[0]
         splitted_firstStim_Form = firstStim.iloc[0,0].split('w')[1].split('.')[0]
         # colors to look for w.r.t. first Stim
         outfirstStim_Color_colorDict = colorDict[splitted_firstStim_Color]
-        [c1, c2] = outfirstStim_Color_colorDict.split('-')
+        [c1, c2, c3, c4, c5, c6] = outfirstStim_Color_colorDict.split('-')
         # forms to look for w.r.t. first Stim
         outfirstStim_Form_formDict = formDict[splitted_firstStim_Form]
-        [f1, f2] = outfirstStim_Form_formDict.split('-')
+        [f1, f2, f3] = outfirstStim_Form_formDict.split('-')
         # Append first stim to list of 8 stimuli in total for one trial
         stimList.append(firstStim)
 
@@ -328,7 +328,7 @@ for displays in range(2):
                 # compare new sampled stim with firstStim
                 if otherStim.iloc[0,0] != firstStim.iloc[0,0]:
                     # Apply function for comparison of otherStim_Color with firstStim_Color's
-                    stimFound = assignFunc_color(c1, c2, f1, f2)
+                    stimFound = assignFunc_color(c1, c2, c3, c4, c5, c6, f1, f2, f3)
                 else:
                     stimFound = False
 
