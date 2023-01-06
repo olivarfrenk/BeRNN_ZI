@@ -1,5 +1,4 @@
 import pandas as pd
-import numpy as np
 import os
 import random
 from collections import Counter
@@ -40,7 +39,7 @@ correctAnswer_dict = {
     '60_1': '60_1w1_0.png-60_1w0_50.png-60_1w0_75.png-60_1w0_25.png'
 }
 
-# Fill all rows for the first 100 and second 100 (for distributing reasons on the two circles in gorilla)
+# Fill all rows for the first 120 and second 120 (for distributing reasons on the two circles in gorilla)
 for displays in range(2):
     if displays == 0:
         rangeList = [0,120]
@@ -162,8 +161,8 @@ for displays in range(2):
 
     for iter in range(rangeList[0],rangeList[1]):
 
-        valueColorsIndex = 0
-        while valueColorsIndex == 0:
+        valueColors = []
+        while any(num > 2 for num in valueColors) == False:
             # Allocate lists for the stimuli presented in one trial
             stimList = []
             colorList = []
@@ -172,7 +171,7 @@ for displays in range(2):
             # colors to look for w.r.t. first Stim
             outfirstStim_Color_colorDict = colorDict[splitted_firstStim_Color]
             [c1, c2, c3, c4, c5, c6] = outfirstStim_Color_colorDict.split('-')
-            for i in range(4):
+            for i in range(5):
                 stimFound = False
                 while stimFound == False:
                     currentStim = df_stimList.sample()
@@ -182,7 +181,7 @@ for displays in range(2):
             # Get the most common color
             keyColors = Counter(colorList).keys()
             valueColors = list(Counter(colorList).values())
-            # Check if found
+            # Correct answer
             valueColorsIndex = valueColors.index(max(valueColors))
 
         # Sample a random number for every stimulus per trial for assigning them to their field in experiment space
@@ -298,8 +297,8 @@ for displays in range(2):
 
     for iter in range(rangeList[0],rangeList[1]):
 
-        valueColorsIndex = 0
-        while valueColorsIndex == 0:
+        valueColors = []
+        while any(num > 3 for num in valueColors) == False:
             # Allocate lists for the stimuli presented in one trial
             stimList = []
             colorList = []
@@ -312,7 +311,7 @@ for displays in range(2):
             splitted_firstStim_Form = firstStim.iloc[0, 0].split('w')[1].split('.')[0]
             outfirstStim_Form_formDict = formDict[splitted_firstStim_Form]
             [f1, f2, f3] = outfirstStim_Form_formDict.split('-')
-            for i in range(4):
+            for i in range(7):
                 stimFound = False
                 while stimFound == False:
                     currentStim = df_stimList.sample()
@@ -323,7 +322,7 @@ for displays in range(2):
             # Get the most common color
             keyColors = Counter(colorList).keys()
             valueColors = list(Counter(colorList).values())
-            # Check if found
+            # Correct answer
             valueColorsIndex = valueColors.index(max(valueColors))
 
         # Sample a random number for every stimulus per trial for assigning them to their field in experiment space
