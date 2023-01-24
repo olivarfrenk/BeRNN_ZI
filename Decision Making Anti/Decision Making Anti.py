@@ -35,7 +35,7 @@ for displays in range(2):
         stimFound = False
         while stimFound == False:
             otherStim = stims.sample()
-            if otherStim.iloc[0,0].split('.')[0] != centralStim.iloc[0,0].split('.')[0]:
+            if otherStim.iloc[0, 0].split('w')[0] != centralStim.iloc[0, 0].split('w')[0]:
                 stimList.append(otherStim)
                 stimFound = True
 
@@ -147,19 +147,19 @@ for displays in range(2):
         centralStim_strength_strengthDict = strengthDict[splitted_centralStim_strength]
         [s1, s2, s3] = centralStim_strength_strengthDict.split('-')
 
-        # sample the two other stim types
-        for i in range(2):
+        # sample the other stim types
+        for i in range(1):
 
             stimFound = False
             while stimFound == False:
                 otherStim = stims.sample()
                 # Split new sampled stim for comparison
-                if otherStim.iloc[0,0].split('.')[0] != centralStim.iloc[0,0].split('.')[0]:
+                if otherStim.iloc[0, 0].split('w')[0] != centralStim.iloc[0, 0].split('w')[0]:
                     splitted_otherStim_strength = otherStim.iloc[0, 0].split('w')[1].split('.')[0]
                     stimFound = assignFunc_strength(s1, s2, s3)
 
         # ratio list for the two stims
-        ratio_list = [[0, 1, 1]]
+        ratio_list = [[1, 2], [0, 3]]
         ratio = random.sample(ratio_list, 1)
 
         for i in range(ratio[0][0]):
@@ -168,8 +168,6 @@ for displays in range(2):
         for i in range(ratio[0][1]):
             stimList.append(stimList[1])
 
-        for i in range(ratio[0][2]):
-            stimList.append(stimList[2])
 
         # Sample a random number for every stimulus per trial for assigning them to their field in experiment space
         if displays == 0:
@@ -249,20 +247,22 @@ directionDict = {
     'R': 'L'
 }
 
-def assignFunc_direction(direction1):
-    if splitted_otherStim_direction == direction1:
-        stimFound = True
-        stimList.append(otherStim)
-        return stimFound
+# def assignFunc_direction(direction1):
+#     if splitted_otherStim_direction == direction1:
+#         stimFound = True
+#         stimList.append(otherStim)
+#         return stimFound
+#
+#     else:
+#         stimFound = False
+#         return stimFound
 
-    else:
-        stimFound = False
-        return stimFound
-
-def assignFunc_strength(strength1, strength2, strength3, direction1):
+def assignFunc_strength(strength1, strength2, strength3):
 
     if splitted_otherStim_strength == strength1 or splitted_otherStim_strength == strength2 or splitted_otherStim_strength == strength3:
-        stimFound = assignFunc_direction(direction1)
+        # stimFound = assignFunc_direction(direction1)
+        stimFound = True
+        stimList.append(otherStim)
         return stimFound
     else:
         stimFound = False
@@ -295,24 +295,24 @@ for displays in range(2):
         # strengths to look for w.r.t. central Stim
         centralStim_strength_strengthDict = strengthDict[splitted_centralStim_strength]
         [s1, s2, s3] = centralStim_strength_strengthDict.split('-')
-        # direction to look for w.r.t. central Stim
-        centralStim_direction_directionDict = directionDict[splitted_centralStim_direction]
-        [d1] = centralStim_direction_directionDict.split('-')
+        # # direction to look for w.r.t. central Stim
+        # centralStim_direction_directionDict = directionDict[splitted_centralStim_direction]
+        # [d1] = centralStim_direction_directionDict.split('-')
 
         # sample the three other stim types
-        for i in range(3):
+        for i in range(1):
 
             stimFound = False
             while stimFound == False:
                 otherStim = stims.sample()
-                if otherStim.iloc[0,0].split('.')[0] != centralStim.iloc[0,0].split('.')[0]:
+                if otherStim.iloc[0, 0].split('w')[0] != centralStim.iloc[0, 0].split('w')[0]:
                     # Split new sampled stim for comparison
                     splitted_otherStim_strength = otherStim.iloc[0, 0].split('w')[1].split('.')[0]
                     splitted_otherStim_direction = otherStim.iloc[0, 0].split('w')[0]
-                    stimFound = assignFunc_strength(s1, s2, s3, d1)
+                    stimFound = assignFunc_strength(s1, s2, s3)
 
         # ratio list for the two stims
-        ratio_list = [[0, 1, 1, 1]]
+        ratio_list = [[2, 3], [1, 4], [0, 5]]
         ratio = random.sample(ratio_list, 1)
 
         for i in range(ratio[0][0]):
@@ -321,11 +321,6 @@ for displays in range(2):
         for i in range(ratio[0][1]):
             stimList.append(stimList[1])
 
-        for i in range(ratio[0][2]):
-            stimList.append(stimList[2])
-
-        for i in range(ratio[0][3]):
-            stimList.append(stimList[3])
 
         # Sample a random number for every stimulus per trial for assigning them to their field in experiment space
         if displays == 0:

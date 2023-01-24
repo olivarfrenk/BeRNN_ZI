@@ -26,20 +26,32 @@ directionDict = {
     'X': 'X'
 }
 
-for displays in range (4):
+for displays in range(8):
     # select rangeList according to display
-    if displays == 0:
-        rangeList = [0, 60]
+    if displays == 0: # Display 1
+        rangeList = [0, 30]
         [x,y,z] = [30,0,2]
-    elif displays == 1:
-        rangeList = [60, 120]
+    elif displays == 1: # Display 2
+        rangeList = [30, 60]
+        [x,y,z] = [31,1,3]
+    elif displays == 2: # Display 1
+        rangeList = [60, 90]
         [x,y,z] = [6,8,10]
-    elif displays == 2:
-        rangeList = [120, 180]
+    elif displays == 3: # Display 2
+        rangeList = [90, 120]
+        [x,y,z] = [7,9,11]
+    elif displays == 4: # Display 1
+        rangeList = [120, 150]
         [x,y,z] = [14,16,18]
-    else:
-        rangeList = [180, 240]
-        [x,y,z] = [22,24,26]
+    elif displays == 5: # Display 2
+        rangeList = [150, 180]
+        [x,y,z] = [15,17,19]
+    elif displays == 6: # Display 1
+        rangeList = [180, 210]
+        [x, y, z] = [22, 24, 26]
+    else: # Display 2
+        rangeList = [210, 240]
+        [x, y, z] = [23, 25, 27]
 
     for i in range(rangeList[0],rangeList[1]):
         # Randomly choose a stim from general stimulus pool
@@ -103,20 +115,32 @@ strengthDict = {
     '1_0': '0-0_75-1_0'
 }
 
-for displays in range (4):
+for displays in range(8):
     # select rangeList according to display
-    if displays == 0:
-        rangeList = [0, 60]
+    if displays == 0: # Display 1
+        rangeList = [0, 30]
         [w,x,y,z,a] = [28,30,0,2,4]
-    elif displays == 1:
-        rangeList = [60, 120]
+    elif displays == 1: # Display 2
+        rangeList = [30, 60]
+        [w,x,y,z,a] = [29,31,1,3,5]
+    elif displays == 2: # Display 1
+        rangeList = [60, 90]
         [w,x,y,z,a] = [4,6,8,10,12]
-    elif displays == 2:
-        rangeList = [120, 180]
+    elif displays == 3: # Display 2
+        rangeList = [90, 120]
+        [w,x,y,z,a] = [5,7,9,11,13]
+    elif displays == 4: # Display 1
+        rangeList = [120, 150]
         [w,x,y,z,a] = [12,14,16,18,20]
-    else:
-        rangeList = [180, 240]
+    elif displays == 5: # Display 2
+        rangeList = [150, 180]
+        [w,x,y,z,a] = [13,15,17,19,21]
+    elif displays == 6: # Display 1
+        rangeList = [180, 210]
         [w,x,y,z,a] = [20,22,24,26,28]
+    else: # Display 2
+        rangeList = [210, 240]
+        [w,x,y,z,a] = [21,23,25,27,29]
 
     for i in range(rangeList[0],rangeList[1]):
         # Randomly choose a stim from general stimulus pool
@@ -193,20 +217,32 @@ def assignFunc_strength(strength1, strength2, strength3, direction1):
         stimFound = False
         return stimFound
 
-for displays in range (4):
+for displays in range(8):
     # select rangeList according to display
-    if displays == 0:
-        rangeList = [0, 60]
+    if displays == 0: # Display 1
+        rangeList = [0, 30]
         [v,w,x,y,z,a,b] = [26,28,30,0,2,4,6]
-    elif displays == 1:
-        rangeList = [60, 120]
+    elif displays == 1: # Display 2
+        rangeList = [30, 60]
+        [v,w,x,y,z,a,b] = [27,29,31,1,3,5,7]
+    elif displays == 2: # Display 1
+        rangeList = [60, 90]
         [v,w,x,y,z,a,b] = [2,4,6,8,10,12,14]
-    elif displays == 2:
-        rangeList = [120, 180]
+    elif displays == 3: # Display 2
+        rangeList = [90, 120]
+        [v,w,x,y,z,a,b] = [3,5,7,9,11,13,15]
+    elif displays == 4: # Display 1
+        rangeList = [120, 150]
         [v,w,x,y,z,a,b] = [10,12,14,16,18,20,22]
-    else:
-        rangeList = [180, 240]
+    elif displays == 5: # Display 2
+        rangeList = [150, 180]
+        [v,w,x,y,z,a,b] = [11,13,15,17,19,21,23]
+    elif displays == 6: # Display 1
+        rangeList = [180, 210]
         [v,w,x,y,z,a,b] = [18,20,22,24,26,28,30]
+    else: # Display 2
+        rangeList = [210, 240]
+        [v,w,x,y,z,a,b] = [19,21,23,25,27,29,31]
 
     for i in range(rangeList[0],rangeList[1]):
         # Randomly choose a stim from general stimulus pool
