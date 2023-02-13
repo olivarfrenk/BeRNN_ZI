@@ -1,6 +1,7 @@
 import pandas as pd
 import os
 import random
+import numpy as np
 
 # Direct to project file
 os.getcwd()
@@ -42,6 +43,11 @@ for displays in range(2):
         rangeList = [120,240]
 
     for i in range(rangeList[0],rangeList[1]):
+        # Add first stim to real df
+        trials_easy.loc[i, fieldNumberList[0]] = trials_easy_preDF.loc[i,0]
+        # Save correct answer to real df
+        trials_easy.loc[i, 36] = trials_easy_preDF.loc[i, 0]
+
         # Sample a random number for every stimulus per trial for assigning them to their field in experiment space
         if displays == 0:
             fieldNumberList = random.sample([1, 3, 5, 7, 9, 11, 13, 15, 17, 19, 21, 23, 25, 27, 29, 31], 2)
@@ -55,43 +61,56 @@ for displays in range(2):
             countNoChange = 0
             for l in range(len(fieldNumberList)):
                 if abs(fieldNumberList[0] - fieldNumberList[l]) <= 2 and l != 0 or abs(fieldNumberList[0] - fieldNumberList[l]) >= 30:
-                    fieldNumberList[l] = random.sample(fieldList,1)[0]
+                    fieldNumberList[l] = random.sample(fieldList, 1)[0]
                 else:
                     countNoChange += 1
 
                 if abs(fieldNumberList[1] - fieldNumberList[l]) <= 2 and l != 1 or abs(fieldNumberList[0] - fieldNumberList[l]) >= 30:
-                    fieldNumberList[l] = random.sample(fieldList,1)[0]
+                    fieldNumberList[l] = random.sample(fieldList, 1)[0]
                 else:
                     countNoChange += 1
 
             if countNoChange == 4:
                 noChange = True
 
-        # Add first stim to real df
-        trials_easy.loc[i, fieldNumberList[0]] = trials_easy_preDF.loc[i,0]
-        # Save correct answer to real df
-        trials_easy.loc[i, 36] = trials_easy_preDF.loc[i, 0]
-
         # randomly choose a stim from general stimulus pool
         stimFound = False
         while stimFound == False:
             currentStim = df_stimList.sample()
-            if currentStim.iloc[0,0] != trials_easy_preDF.loc[i,0]:
-                # add stim to trial df
-                if pd.isna(trials_easy_preDF.loc[i,1]):
+            if i == 0:
+                if currentStim.iloc[0,0] != trials_easy_preDF.loc[i,0]:
+                    # add stim to trial df
+                    # if pd.isna(trials_easy_preDF.loc[i,1]):
                     trials_easy.loc[i,fieldNumberList[1]] = currentStim.iloc[0,0]
                     trials_easy_preDF.loc[i,1] = currentStim.iloc[0,0]
-                # check for consecutive trial
-                if i != len(trials_easy_preDF)-1:
-                    if pd.isna(trials_easy_preDF.loc[i+1,0]):
-                        # trials_easy.loc[i+1,fieldNumberList[0]] = currentStim.iloc[0,0]
-                        trials_easy_preDF.loc[i+1,0] = currentStim.iloc[0,0]
-                    else:
-                        trials_easy.loc[i,fieldNumberList[1]] = '180_0w1_0.png'
-                        trials_easy_preDF.loc[i,1] = '180_0w1_0.png'
-                stimFound = True
+                    # check for consecutive trial
+                    if i != len(trials_easy_preDF)-1:
+                        if pd.isna(trials_easy_preDF.loc[i+1,0]):
+                            # trials_easy.loc[i+1,fieldNumberList[0]] = currentStim.iloc[0,0]
+                            trials_easy_preDF.loc[i+1,0] = currentStim.iloc[0,0]
+                        else:
+                            trials_easy.loc[i,fieldNumberList[1]] = '180_0w1_0.png'
+                            trials_easy_preDF.loc[i,1] = '180_0w1_0.png'
+                    stimFound = True
+                else:
+                    stimFound = False
             else:
-                stimFound = False
+                if currentStim.iloc[0,0] != trials_easy_preDF.loc[i,0] and currentStim.iloc[0,0] != trials_easy_preDF.loc[i-1,0]:
+                    # add stim to trial df
+                    # if pd.isna(trials_easy_preDF.loc[i,1]):
+                    trials_easy.loc[i,fieldNumberList[1]] = currentStim.iloc[0,0]
+                    trials_easy_preDF.loc[i,1] = currentStim.iloc[0,0]
+                    # check for consecutive trial
+                    if i != len(trials_easy_preDF)-1:
+                        if pd.isna(trials_easy_preDF.loc[i+1,0]):
+                            # trials_easy.loc[i+1,fieldNumberList[0]] = currentStim.iloc[0,0]
+                            trials_easy_preDF.loc[i+1,0] = currentStim.iloc[0,0]
+                        else:
+                            trials_easy.loc[i,fieldNumberList[1]] = '180_0w1_0.png'
+                            trials_easy_preDF.loc[i,1] = '180_0w1_0.png'
+                    stimFound = True
+                else:
+                    stimFound = False
 
             # Add random fixation cross time
             fixation_cross_time = random.sample([100, 200, 300, 400, 500], 1)
@@ -109,6 +128,30 @@ for displays in range(2):
 
 # Save df as spreadsheet
 trials_easy.to_excel('spreadsheetEasy_WorkingMemory.xlsx')
+
+
+# Bug Fix tool #########################################################################################################
+stopIt = False
+for i in range(len(trials_easy)):
+    if i + 1 == len(trials_easy):
+        break
+    print(i)
+    stimuli = []
+    for j in range(32):
+        if type(trials_easy.iloc[i,j]) == str:
+            stimuli.append(trials_easy.loc[i,j])
+    for k in range(32):
+        if type(trials_easy.loc[i+1,k]) == str:
+            stimuli.append(trials_easy.loc[i+1,k])
+    if stimuli[0] == stimuli[2] and stimuli[1] == stimuli[3] or stimuli[0] == stimuli[3] and stimuli[1] == stimuli[2]:
+        print(i)
+        print(stimuli[0])
+        print(stimuli[1])
+        print(stimuli[2])
+        print(stimuli[3])
+        print('ERROR')
+
+########################################################################################################################
 
 
 # ======================================================================================================================
