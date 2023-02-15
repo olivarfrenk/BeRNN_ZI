@@ -22,24 +22,21 @@ df_stimList = pd.DataFrame(stimList)
 # ======================================================================================================================
 # Create 240 trials for easy - all stimuli in consecutive trial allowed
 # ======================================================================================================================
-trials_easy = pd.DataFrame(index=range(240), columns=range(37))
+trials_easy = pd.DataFrame(index=range(248), columns=range(37))
 
 # Sample very first trial
 firstStim = df_stimList.sample()
 secondStim = df_stimList.sample()
-
 firstStim_memory2 = firstStim
 firstStim_memory2_form = firstStim_memory2.iloc[0, 0].split('w')[1].split('.')[0]
 secondStim_memory2 = secondStim
 secondStim_memory2_form = secondStim_memory2.iloc[0, 0].split('w')[1].split('.')[0]
-
 # Create very first trial
 trials_easy.iloc[0, 1] = firstStim.iloc[0,0]
 trials_easy.iloc[0, 17] = secondStim.iloc[0,0]
 trials_easy.iloc[0, 34] = 12
 trials_easy.iloc[0, 35] = 0
 trials_easy.loc[0, 36] = 'Mismatch'
-
 # Add random fixation cross time
 fixation_cross_time = random.sample([100, 200, 300, 400, 500], 1)
 trials_easy.iloc[0, 32] = fixation_cross_time[0]
@@ -51,19 +48,16 @@ trials_easy.iloc[0, 33] = after_response_time[0]
 # Sample second trial
 firstStim = df_stimList.sample()
 secondStim = df_stimList.sample()
-
 firstStim_memory1 = firstStim
 firstStim_memory1_form = firstStim_memory1.iloc[0, 0].split('w')[1].split('.')[0]
 secondStim_memory1 = secondStim
 secondStim_memory1_form = secondStim_memory1.iloc[0, 0].split('w')[1].split('.')[0]
-
-# Create very first trial
-trials_easy.iloc[1, 1] = firstStim.iloc[0,0]
-trials_easy.iloc[1, 17] = secondStim.iloc[0,0]
+# Create second trial
+trials_easy.iloc[1, 7] = firstStim.iloc[0,0]
+trials_easy.iloc[1, 23] = secondStim.iloc[0,0]
 trials_easy.iloc[1, 34] = 12
 trials_easy.iloc[1, 35] = 0
 trials_easy.loc[1, 36] = 'Mismatch'
-
 # Add random fixation cross time
 fixation_cross_time = random.sample([100, 200, 300, 400, 500], 1)
 trials_easy.iloc[1, 32] = fixation_cross_time[0]
@@ -74,9 +68,9 @@ trials_easy.iloc[1, 33] = after_response_time[0]
 # Fill all rows for the first 120 and second 120 (for distributing reasons on the two circles in gorilla)
 for displays in range(2):
     if displays == 0:
-        rangeList = [2, 120]
+        rangeList = [2, 124]
     else:
-        rangeList = [120, 240]
+        rangeList = [124, 248]
 
     for i in range(rangeList[0], rangeList[1]):
         # Sample a random number for every stimulus per trial for assigning them to their field in experiment space
@@ -177,7 +171,7 @@ trials_easy.to_excel('spreadsheetEasy_WorkingMemory_Ctx2.xlsx')
 # ======================================================================================================================
 # Create 240 trials for normal - Only similiar colors in consecutive trials
 # ======================================================================================================================
-trials_normal = pd.DataFrame(index=range(240), columns=range(37))
+trials_normal = pd.DataFrame(index=range(248), columns=range(37))
 
 formDict = {
     '0_25': '0_25-0_5-0_75',
@@ -205,19 +199,16 @@ def assignFunc_form(form1, form2, form3, form4, form5, form6):
 # Sample very first trial
 firstStim = df_stimList.sample()
 secondStim = df_stimList.sample()
-
 firstStim_memory2 = firstStim
 firstStim_memory2_form = firstStim_memory2.iloc[0, 0].split('w')[1].split('.')[0]
 secondStim_memory2 = secondStim
 secondStim_memory2_form = secondStim_memory2.iloc[0, 0].split('w')[1].split('.')[0]
-
 # Create very first trial
 trials_normal.iloc[0, 1] = firstStim.iloc[0,0]
 trials_normal.iloc[0, 17] = secondStim.iloc[0,0]
 trials_normal.iloc[0, 34] = 12
 trials_normal.iloc[0, 35] = 0
 trials_normal.loc[0, 36] = 'Mismatch'
-
 # Add random fixation cross time
 fixation_cross_time = random.sample([100, 200, 300, 400, 500], 1)
 trials_normal.iloc[0, 32] = fixation_cross_time[0]
@@ -225,23 +216,19 @@ trials_normal.iloc[0, 32] = fixation_cross_time[0]
 after_response_time = random.sample([600, 700, 800, 900, 1000], 1)
 trials_normal.iloc[0, 33] = after_response_time[0]
 
-
 # Sample second trial
 firstStim = df_stimList.sample()
 secondStim = df_stimList.sample()
-
 firstStim_memory1 = firstStim
 firstStim_memory1_form = firstStim_memory1.iloc[0, 0].split('w')[1].split('.')[0]
 secondStim_memory1 = secondStim
 secondStim_memory1_form = secondStim_memory1.iloc[0, 0].split('w')[1].split('.')[0]
-
 # Create very first trial
-trials_normal.iloc[1, 1] = firstStim.iloc[0,0]
-trials_normal.iloc[1, 17] = secondStim.iloc[0,0]
+trials_normal.iloc[1, 7] = firstStim.iloc[0,0]
+trials_normal.iloc[1, 23] = secondStim.iloc[0,0]
 trials_normal.iloc[1, 34] = 12
 trials_normal.iloc[1, 35] = 0
 trials_normal.loc[1, 36] = 'Mismatch'
-
 # Add random fixation cross time
 fixation_cross_time = random.sample([100, 200, 300, 400, 500], 1)
 trials_normal.iloc[1, 32] = fixation_cross_time[0]
@@ -252,9 +239,9 @@ trials_normal.iloc[1, 33] = after_response_time[0]
 # Fill all rows for the first 120 and second 120 (for distributing reasons on the two circles in gorilla)
 for displays in range(2):
     if displays == 0:
-        rangeList = [1, 120]
+        rangeList = [2, 124]
     else:
-        rangeList = [120, 240]
+        rangeList = [124, 248]
 
     for i in range(rangeList[0], rangeList[1]):
         # Sample a random number for every stimulus per trial for assigning them to their field in experiment space
@@ -288,7 +275,7 @@ for displays in range(2):
         stimFound = False
         while stimFound == False:
             # Create subsequently connected trials
-            ratioMatches = random.sample([0, 1, 2], 1)
+            ratioMatches = random.sample([0, 1], 1)
             if ratioMatches[0] == 0:
                 diffFound = False
                 while diffFound == False:
@@ -338,12 +325,6 @@ for displays in range(2):
         firstStim_memory1_form = firstStim.iloc[0, 0].split('w')[1].split('.')[0]
         secondStim_memory1_form = secondStim.iloc[0, 0].split('w')[1].split('.')[0]
 
-        # Save the stims in the df
-        trials_easy.loc[i, fieldNumberList[0]] = firstStim.iloc[0, 0]
-        trials_easy.loc[i, fieldNumberList[1]] = secondStim.iloc[0, 0]
-        # Save correct answer
-        trials_easy.loc[i, 36] = correctAnswer
-
         # Add random fixation cross time
         fixation_cross_time = random.sample([100, 200, 300, 400, 500], 1)
         trials_normal.iloc[i, 32] = fixation_cross_time[0]
@@ -364,7 +345,7 @@ trials_normal.to_excel('spreadsheetNormal_WorkingMemory_Ctx2.xlsx')
 # ======================================================================================================================
 # Create 240 trials for hard
 # ======================================================================================================================
-trials_hard = pd.DataFrame(index=range(240), columns=range(37))
+trials_hard = pd.DataFrame(index=range(248), columns=range(37))
 
 colorDict = {
     '360': '300_0-360_0-60_0-300_1-360_1-60_1',
@@ -409,21 +390,18 @@ def assignFunc_form(color1, color2, color3, color4, color5, color6, color7, colo
 # Sample very first trial
 firstStim = df_stimList.sample()
 secondStim = df_stimList.sample()
-
 firstStim_memory2 = firstStim
 firstStim_memory2_color = firstStim_memory2.iloc[0,0].split('w')[0]
 firstStim_memory2_form = firstStim_memory2.iloc[0,0].split('w')[1].split('.')[0]
 secondStim_memory2 = secondStim
 secondStim_memory2_color = secondStim_memory2.iloc[0,0].split('w')[0]
 secondStim_memory2_form = secondStim_memory2.iloc[0,0].split('w')[1].split('.')[0]
-
 # Create very first trial
 trials_hard.iloc[0, 1] = firstStim.iloc[0,0]
 trials_hard.iloc[0, 17] = secondStim.iloc[0,0]
 trials_hard.iloc[0, 34] = 12
 trials_hard.iloc[0, 35] = 0
 trials_hard.loc[0, 36] = 'Mismatch'
-
 # Add random fixation cross time
 fixation_cross_time = random.sample([100, 200, 300, 400, 500], 1)
 trials_hard.iloc[0, 32] = fixation_cross_time[0]
@@ -435,21 +413,18 @@ trials_hard.iloc[0, 33] = after_response_time[0]
 # Sample second trial
 firstStim = df_stimList.sample()
 secondStim = df_stimList.sample()
-
 firstStim_memory1 = firstStim
 firstStim_memory1_color = firstStim_memory1.iloc[0,0].split('w')[0]
 firstStim_memory1_form = firstStim_memory1.iloc[0, 0].split('w')[1].split('.')[0]
 secondStim_memory1 = secondStim
 secondStim_memory1_color = secondStim_memory1.iloc[0,0].split('w')[0]
 secondStim_memory1_form = secondStim_memory1.iloc[0, 0].split('w')[1].split('.')[0]
-
-# Create very first trial
-trials_hard.iloc[1, 1] = firstStim.iloc[0,0]
-trials_hard.iloc[1, 17] = secondStim.iloc[0,0]
+# Create second trial
+trials_hard.iloc[1, 7] = firstStim.iloc[0,0]
+trials_hard.iloc[1, 23] = secondStim.iloc[0,0]
 trials_hard.iloc[1, 34] = 12
 trials_hard.iloc[1, 35] = 0
 trials_hard.loc[1, 36] = 'Mismatch'
-
 # Add random fixation cross time
 fixation_cross_time = random.sample([100, 200, 300, 400, 500], 1)
 trials_hard.iloc[1, 32] = fixation_cross_time[0]
@@ -461,9 +436,9 @@ trials_hard.iloc[1, 33] = after_response_time[0]
 # Fill all rows for the first 120 and second 120 (for distributing reasons on the two circles in gorilla)
 for displays in range(2):
     if displays == 0:
-        rangeList = [2, 120]
+        rangeList = [2, 124]
     else:
-        rangeList = [120, 240]
+        rangeList = [124, 248]
 
     for i in range(rangeList[0], rangeList[1]):
         # Sample a random number for every stimulus per trial for assigning them to their field in experiment space
@@ -497,7 +472,7 @@ for displays in range(2):
         stimFound = False
         while stimFound == False:
             # Create subsequently connected trials
-            ratioMatches = random.sample([0, 1, 2], 1)
+            ratioMatches = random.sample([0, 1], 1)
             if ratioMatches[0] == 0:
                 diffFound = False
                 while diffFound == False:
@@ -582,3 +557,32 @@ for displays in range(2):
 # Save df as spreadsheet
 trials_hard.to_excel('spreadsheetHard_WorkingMemory_Ctx2.xlsx')
 
+
+# # Bug Fix tool #########################################################################################################
+# stopIt = False
+# for i in range(len(trials_hard)):
+#     if i+2 == len(trials_hard):
+#         break
+#     print(i)
+#     stimuli = []
+#     for j in range(37):
+#         if type(trials_hard.iloc[i,j]) == str:
+#             stimuli.append(trials_hard.loc[i,j])
+#     for k in range(37):
+#         if type(trials_hard.loc[i+2,k]) == str:
+#             stimuli.append(trials_hard.loc[i+2,k])
+#     if stimuli[0].split('w')[1].split('.')[0] == stimuli[3].split('w')[1].split('.')[0] and stimuli[1].split('w')[1].split('.')[0] == stimuli[4].split('w')[1].split('.')[0] and stimuli[5] == 'Mismatch'\
+#         or stimuli[0].split('w')[1].split('.')[0] == stimuli[4].split('w')[1].split('.')[0] and stimuli[1].split('w')[1].split('.')[0] == stimuli[3].split('w')[1].split('.')[0] and stimuli[5] == 'Mismatch'\
+#         or stimuli[0].split('w')[1].split('.')[0] != stimuli[3].split('w')[1].split('.')[0] and stimuli[1].split('w')[1].split('.')[0] == stimuli[4].split('w')[1].split('.')[0] and stimuli[5] == 'Match'\
+#         or stimuli[0].split('w')[1].split('.')[0] != stimuli[4].split('w')[1].split('.')[0] and stimuli[1].split('w')[1].split('.')[0] == stimuli[3].split('w')[1].split('.')[0] and stimuli[5] == 'Match'\
+#         or stimuli[0].split('w')[1].split('.')[0] != stimuli[4].split('w')[1].split('.')[0] and stimuli[1].split('w')[1].split('.')[0] != stimuli[3].split('w')[1].split('.')[0] and stimuli[5] == 'Match'\
+#         and stimuli[0].split('w')[1].split('.')[0] != stimuli[3].split('w')[1].split('.')[0] and stimuli[1].split('w')[1].split('.')[0] != stimuli[4].split('w')[1].split('.')[0] and stimuli[5] == 'Match':
+#         print(i)
+#         print(stimuli[0])
+#         print(stimuli[1])
+#         print(stimuli[3])
+#         print(stimuli[4])
+#         print(stimuli[5])
+#         print('ERROR')
+#         break
+# # ########################################################################################################################

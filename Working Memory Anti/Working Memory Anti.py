@@ -24,23 +24,20 @@ df_stimList = pd.DataFrame(stimList)
 # ======================================================================================================================
 # Create 240 trials for easy - all stimuli in consecutive trial allowed (32 available Stimuli)
 # ======================================================================================================================
-trials_easy = pd.DataFrame(index = range(240), columns = range(37))
-trials_easy_preDF = pd.DataFrame(index = range(240), columns = range(2))
-
-# Put in the 180_0w1_0.png beginnings and ends for being able two shuffle the paired trials:
-trials_easy_preDF.loc[0,0] = '180_0w1_0.png'
-trials_easy_preDF.loc[60,0] = '180_0w1_0.png'
-trials_easy_preDF.loc[120,0] = '180_0w1_0.png'
-trials_easy_preDF.loc[180,0] = '180_0w1_0.png'
-trials_easy_preDF.loc[240,0] = '180_0w1_0.png'
+trials_easy = pd.DataFrame(index = range(244), columns = range(37))
+trials_easy_preDF = pd.DataFrame(index = range(244), columns = range(2))
 
 # Fill all rows for the first 120 and second 120 (for distributing reasons on the two circles in gorilla)
 for displays in range(2):
     if displays == 0:
-        rangeList = [0,120]
+        rangeList = [0,122]
     else:
-        rangeList = [120,240]
+        rangeList = [122,244]
 
+    # Pull first stim
+    currentStim = df_stimList.sample()
+    trials_easy_preDF.loc[0, 0] = currentStim.iloc[0,0]
+    # Start loop trough rangelist
     for i in range(rangeList[0],rangeList[1]):
         # Sample a random number for every stimulus per trial for assigning them to their field in experiment space
         if displays == 0:
@@ -55,12 +52,12 @@ for displays in range(2):
             countNoChange = 0
             for l in range(len(fieldNumberList)):
                 if abs(fieldNumberList[0] - fieldNumberList[l]) <= 2 and l != 0 or abs(fieldNumberList[0] - fieldNumberList[l]) >= 30:
-                    fieldNumberList[l] = random.sample(fieldList,1)[0]
+                    fieldNumberList[l] = random.sample(fieldList, 1)[0]
                 else:
                     countNoChange += 1
 
                 if abs(fieldNumberList[1] - fieldNumberList[l]) <= 2 and l != 1 or abs(fieldNumberList[0] - fieldNumberList[l]) >= 30:
-                    fieldNumberList[l] = random.sample(fieldList,1)[0]
+                    fieldNumberList[l] = random.sample(fieldList, 1)[0]
                 else:
                     countNoChange += 1
 
@@ -68,30 +65,42 @@ for displays in range(2):
                 noChange = True
 
         # Add first stim to real df
-        trials_easy.loc[i, fieldNumberList[0]] = trials_easy_preDF.loc[i,0]
+        trials_easy.loc[i, fieldNumberList[0]] = trials_easy_preDF.loc[i, 0]
 
         # randomly choose a stim from general stimulus pool
         stimFound = False
         while stimFound == False:
             currentStim = df_stimList.sample()
-            if currentStim.iloc[0,0] != trials_easy_preDF.loc[i,0]:
-                # add stim to trial df
-                if pd.isna(trials_easy_preDF.loc[i,1]):
+            if i == 0:
+                if currentStim.iloc[0,0] != trials_easy_preDF.loc[i,0]:
+                    # add stim to trial df
                     trials_easy.loc[i,fieldNumberList[1]] = currentStim.iloc[0,0]
                     trials_easy_preDF.loc[i,1] = currentStim.iloc[0,0]
-                # check for consecutive trial
-                if i != len(trials_easy_preDF)-1:
-                    if pd.isna(trials_easy_preDF.loc[i+1,0]):
-                        # trials_easy.loc[i+1,fieldNumberList[0]] = currentStim.iloc[0,0]
+                    # Save correct answer to real df
+                    trials_easy.loc[i, 36] = trials_easy_preDF.loc[i, 1]
+                    # check for consecutive trial
+                    if i != len(trials_easy_preDF)-1:
                         trials_easy_preDF.loc[i+1,0] = currentStim.iloc[0,0]
+                        stimFound = True
                     else:
-                        trials_easy.loc[i,fieldNumberList[1]] = '180_0w1_0.png'
-                        trials_easy_preDF.loc[i,1] = '180_0w1_0.png'
-                # Save correct answer to real df
-                trials_easy.loc[i, 36] = trials_easy_preDF.loc[i,1]
-                stimFound = True
+                        stimFound = True
+                else:
+                    stimFound = False
             else:
-                stimFound = False
+                if currentStim.iloc[0,0] != trials_easy_preDF.loc[i,0] and currentStim.iloc[0,0] != trials_easy_preDF.loc[i-1,0]:
+                    # add stim to trial df
+                    trials_easy.loc[i,fieldNumberList[1]] = currentStim.iloc[0,0]
+                    trials_easy_preDF.loc[i,1] = currentStim.iloc[0,0]
+                    # Save correct answer to real df
+                    trials_easy.loc[i, 36] = trials_easy_preDF.loc[i,1]
+                    # check for consecutive trial
+                    if i != len(trials_easy_preDF)-1:
+                        trials_easy_preDF.loc[i+1,0] = currentStim.iloc[0,0]
+                        stimFound = True
+                    else:
+                        stimFound = True
+                else:
+                    stimFound = False
 
             # Add random fixation cross time
             fixation_cross_time = random.sample([100, 200, 300, 400, 500], 1)
@@ -114,27 +123,22 @@ trials_easy.to_excel('spreadsheetEasy_WorkingMemory_Anti.xlsx')
 # ======================================================================================================================
 # Create 240 trials for normal - Only similiar colors in consecutive trials (32 available Stimuli)
 # ======================================================================================================================
-trials_normal = pd.DataFrame(index = range(240), columns = range(37))
-trials_normal_preDF = pd.DataFrame(index = range(240), columns = range(2))
+trials_normal = pd.DataFrame(index = range(244), columns = range(37))
+trials_normal_preDF = pd.DataFrame(index = range(244), columns = range(2))
 
 def assignFunc_color(color1, color2, color3, color4, color5, color6):
-
     if splitted_currentStim_color == color1 or splitted_currentStim_color == color2 and splitted_previousStim_form != splitted_currentStim_form \
-            or splitted_currentStim_color == color3 or splitted_currentStim_color == color4 or splitted_currentStim_color == color5 and \
-            splitted_previousStim_form != splitted_currentStim_form or splitted_currentStim_color == color6:
+        or splitted_currentStim_color == color3 or splitted_currentStim_color == color4 or splitted_currentStim_color == color5 and \
+        splitted_previousStim_form != splitted_currentStim_form or splitted_currentStim_color == color6:
         # append
         trials_normal.loc[i, fieldNumberList[1]] = currentStim.iloc[0, 0]
         trials_normal_preDF.loc[i, 1] = currentStim.iloc[0, 0]
-
-        if i != len(trials_normal) - 1:
-            if pd.isna(trials_normal_preDF.loc[i + 1, 0]):
-                trials_normal_preDF.loc[i + 1, 0] = currentStim.iloc[0, 0]
-            else:
-                trials_normal.loc[i, fieldNumberList[1]] = '180_0w1_0.png'
-                trials_normal_preDF.loc[i, 1] = '180_0w1_0.png'
-
         # Save correct answer to real df
         trials_normal.loc[i, 36] = trials_normal_preDF.loc[i, 1]
+
+        if i != len(trials_normal) - 1:
+            trials_normal_preDF.loc[i + 1, 0] = currentStim.iloc[0, 0]
+
         stimFound = True
         return stimFound
 
@@ -152,15 +156,9 @@ colorDict = {
     '60': '360_0-60_0-120_0-360_1-60_1-120_1'
 }
 
-# Put in the 180_0w1_0.png beginnings and ends for being able two shuffle the paired trials:
-trials_normal_preDF.loc[0,0] = '180_0w1_0.png'
-trials_normal_preDF.loc[60,0] = '180_0w1_0.png'
-trials_normal_preDF.loc[120,0] = '180_0w1_0.png'
-trials_normal_preDF.loc[180,0] = '180_0w1_0.png'
-trials_normal_preDF.loc[240,0] = '180_0w1_0.png'
-
 # Allocate first previous stim
-previousStim = '180_0w1_0.png'
+previousStim = df_stimList.sample().iloc[0, 0]
+trials_normal_preDF.loc[0,0] = previousStim
 # split it up for comparison
 splitted_previousStim_color = previousStim.split('_')[0]
 splitted_previousStim_form = previousStim.split('w')[1].split('.')[0]
@@ -168,9 +166,9 @@ splitted_previousStim_form = previousStim.split('w')[1].split('.')[0]
 # Fill all rows for the first 100 and second 100 (for distributing reasons on the two circles in gorilla)
 for displays in range(2):
     if displays == 0:
-        rangeList = [0,120]
+        rangeList = [0,122]
     else:
-        rangeList = [120,240]
+        rangeList = [122,244]
 
     for i in range(rangeList[0],rangeList[1]):
         # Sample a random number for every stimulus per trial for assigning them to their field in experiment space
@@ -216,7 +214,10 @@ for displays in range(2):
             splitted_currentStim_color = string_currentStim.split('w')[0]
             splitted_currentStim_form = string_currentStim.split('w')[1].split('.')[0]
 
-            stimFound = assignFunc_color(c1, c2, c3, c4, c5, c6)
+            if i == 0:
+                stimFound = assignFunc_color(c1, c2, c3, c4, c5, c6)
+            elif currentStim.iloc[0,0] != trials_normal_preDF.loc[i-1,0]:
+                stimFound = assignFunc_color(c1, c2, c3, c4, c5, c6)
 
         # the current stim is the previous for the next iteration in the for loop
         previousStim = trials_normal_preDF.loc[i, 1]
@@ -243,25 +244,24 @@ trials_normal.to_excel('spreadsheetNormal_WorkingMemory_Anti.xlsx')
 
 
 # ======================================================================================================================
-# Create 240 trials for hard
+# Create 240 trials for hard - Only similiar colors and forms in consecutive trials (32 available Stimuli)
 # ======================================================================================================================
+# Create empty trials hard df
+trials_hard = pd.DataFrame(index = range(244), columns = range(37))
+trials_hard_preDF = pd.DataFrame(index = range(244), columns = range(2))
 
+# Define functions
 def assignFunc_form(form1, form2, form3, iter):
     if splitted_currentStim_form == form1 or splitted_currentStim_form == form2 or splitted_currentStim_form == form3:
         # add sampled stim to trial df
         trials_hard.loc[iter, fieldNumberList[1]] = currentStim.iloc[0, 0]
         trials_hard_preDF.loc[iter, 1] = currentStim.iloc[0, 0]
-        # check for consecutive trial
-        if iter != len(trials_hard) - 1:
-            if pd.isna(trials_hard_preDF.loc[iter + 1, 0]):
-                trials_hard_preDF.loc[iter + 1, 0] = currentStim.iloc[0, 0]
-            else:
-                trials_hard.loc[iter, fieldNumberList[1]] = '180_0w1_0.png'
-                trials_hard_preDF.loc[iter, 1] = '180_0w1_0.png'
-
         # Save correct answer to real df
         trials_hard.loc[iter, 36] = trials_hard_preDF.loc[iter, 1]
-
+        # check for consecutive trial
+        if iter != len(trials_hard) - 1:
+            trials_hard_preDF.loc[iter + 1, 0] = currentStim.iloc[0, 0]
+        # Interrupt while loop
         stimFound = True
         return stimFound
 
@@ -271,8 +271,8 @@ def assignFunc_form(form1, form2, form3, iter):
 
 def assignFunc_color(color1, color2, color3, color4, color5, color6, form1, form2, form3, iter):
     if splitted_currentStim_color == color2 and splitted_currentStim_form != splitted_previousStim_form or \
-            splitted_currentStim_color == color1 or splitted_currentStim_color == color3 or splitted_currentStim_color == color4 \
-            or splitted_currentStim_color == color5 and splitted_currentStim_form != splitted_previousStim_form or splitted_currentStim_color == color6:
+        splitted_currentStim_color == color1 or splitted_currentStim_color == color3 or splitted_currentStim_color == color4 \
+        or splitted_currentStim_color == color5 and splitted_currentStim_form != splitted_previousStim_form or splitted_currentStim_color == color6:
 
         stimFound = assignFunc_form(form1, form2, form3, iter)
         return stimFound
@@ -281,26 +281,27 @@ def assignFunc_color(color1, color2, color3, color4, color5, color6, form1, form
         stimFound = False
         return stimFound
 
-formDict = {
-    '0_25': '0_25-0_5-0_75',
-    '0_50': '0_25-0_5-0_75',
-    '0_75': '0_5-0_75-1_0',
-    '1_0': '0_5-0_75-1_0'
+
+# Create dictionary for colors and forms with their similar connections
+colorDict = {
+    '360': '300_0-360_0-60_0-300_1-360_1-60_1',
+    '300': '240_0-300_0-360_0-240_1-300_1-360_1',
+    '240': '180_0-240_0-300_0-180_1-240_1-300_1',
+    '180': '120_0-180_0-240_0-120_0-180_0-240_0',
+    '120': '60_0-120_0-180_0-60_1-120_1-180_1',
+    '60': '360_0-60_0-120_0-360_1-60_1-120_1'
 }
 
-# Create empty trials hard df
-trials_hard = pd.DataFrame(index = range(240), columns = range(37))
-trials_hard_preDF = pd.DataFrame(index = range(240), columns = range(2))
-
-# Put in the 180_0w1_0.png beginnings and ends for being able two shuffle the paired trials:
-trials_hard_preDF.loc[0,0] = '180_0w1_0.png'
-trials_hard_preDF.loc[60,0] = '180_0w1_0.png'
-trials_hard_preDF.loc[120,0] = '180_0w1_0.png'
-trials_hard_preDF.loc[180,0] = '180_0w1_0.png'
-trials_hard_preDF.loc[240,0] = '180_0w1_0.png'
+formDict = {
+    '0_25': '0_25-0_50-0_75',
+    '0_50': '0_25-0_50-0_75',
+    '0_75': '0_50-0_75-1_0',
+    '1_0': '0_50-0_75-1_0'
+}
 
 # Allocate first previous stim
-previousStim = '180_0w1_0.png'
+previousStim = df_stimList.sample().iloc[0, 0]
+trials_hard_preDF.loc[0,0] = previousStim
 # split it up for comparison
 splitted_previousStim_color = previousStim.split('_')[0]
 splitted_previousStim_form = previousStim.split('w')[1].split('.')[0]
@@ -308,9 +309,9 @@ splitted_previousStim_form = previousStim.split('w')[1].split('.')[0]
 
 for displays in range(2):
     if displays == 0:
-        rangeList = [0,120]
+        rangeList = [0,122]
     else:
-        rangeList = [120,240]
+        rangeList = [122,244]
 
     for iter in range(rangeList[0],rangeList[1]):
         # Sample a random number for every stimulus per trial for assigning them to their field in experiment space
@@ -360,7 +361,10 @@ for displays in range(2):
             splitted_currentStim_form = string_currentStim.split('w')[1].split('.')[0]
 
             # Apply function for finding right consecutive stimulus
-            stimFound = assignFunc_color(c1, c2, c3, c4, c5, c6, f1, f2, f3, iter)
+            if iter == 0:
+                stimFound = assignFunc_color(c1, c2, c3, c4, c5, c6, f1, f2, f3, iter)
+            elif currentStim.iloc[0,0] != trials_hard_preDF.loc[iter-1,0]:
+                stimFound = assignFunc_color(c1, c2, c3, c4, c5, c6, f1, f2, f3, iter)
 
         # At the end allocate previous stim for next for loop
         previousStim = trials_hard_preDF.iloc[iter, 1]
@@ -386,3 +390,26 @@ for displays in range(2):
 trials_hard.to_excel('spreadsheetHard_WorkingMemory_Anti.xlsx')
 
 
+
+
+# # # Bug Fix tool #########################################################################################################
+# stopIt = False
+# for i in range(len(trials_easy)):
+#     if i+1 == len(trials_easy):
+#         break
+#     print(i)
+#     stimuli = []
+#     for j in range(32):
+#         if type(trials_easy.iloc[i,j]) == str:
+#             stimuli.append(trials_easy.loc[i,j])
+#     for k in range(32):
+#         if type(trials_easy.loc[i+1,k]) == str:
+#             stimuli.append(trials_easy.loc[i+1,k])
+#     if stimuli[0] == stimuli[2] and stimuli[1] == stimuli[3] or stimuli[0] == stimuli[3] and stimuli[1] == stimuli[2]:
+#         print(i)
+#         print(stimuli[0])
+#         print(stimuli[1])
+#         print(stimuli[2])
+#         print(stimuli[3])
+#         print('ERROR')
+# # ########################################################################################################################
